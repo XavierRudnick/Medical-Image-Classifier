@@ -60,7 +60,7 @@ BATCH_SIZE = 32
 train_ds = train_ds.shuffle(1000).batch(BATCH_SIZE).prefetch(AUTOTUNE)
 test_ds = test_ds.batch(BATCH_SIZE).prefetch(AUTOTUNE)
 
-#creating model
+#creating model based on previous medical CNN models trained for xray image recognition 
 model=tf.keras.Sequential([
     tf.keras.layers.Conv2D(64,(3,3),activation='relu',input_shape=(150,150,1)),
     tf.keras.layers.MaxPooling2D(2,2),
