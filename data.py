@@ -51,16 +51,17 @@ def prepare_dataset(path, label):
 AUTOTUNE = tf.data.AUTOTUNE
 
 #apply prepare_dataset function to each tensorflow obj, use num_parallel_calls to optimize preformence
-train_ds = train_df.map(prepare_dataset, num_parallel_calls=AUTOTUNE)
-test_ds = test_df.map(prepare_dataset, num_parallel_calls=AUTOTUNE)
+train_df = train_df.map(prepare_dataset, num_parallel_calls=AUTOTUNE)
+test_df = test_df.map(prepare_dataset, num_parallel_calls=AUTOTUNE)
 
 BATCH_SIZE = 32
 
 #shuffle to avoid unwanted trends in image order, group images in batches for better speeds, prefetch new batch
-train_ds = train_ds.shuffle(1000).batch(BATCH_SIZE).prefetch(AUTOTUNE)
-test_ds = test_ds.batch(BATCH_SIZE).prefetch(AUTOTUNE)
+train_df = train_df.shuffle(1000).batch(BATCH_SIZE).prefetch(AUTOTUNE)
+test_df = test_df.batch(BATCH_SIZE).prefetch(AUTOTUNE)
 
-#creating model based on previous medical CNN models trained for xray image recognition 
+
+#creating model
 model=tf.keras.Sequential([
     tf.keras.layers.Conv2D(64,(3,3),activation='relu',input_shape=(150,150,1)),
     tf.keras.layers.MaxPooling2D(2,2),
@@ -80,8 +81,8 @@ model.compile(optimizer='adam',
              metrics=['accuracy'])
 
 model.summary()
-model.fit(train_ds, epochs=5)
+model.fit(train_df, epochs=5)
 
-test_loss, test_acc = model.evaluate(test_ds, verbose=1)
+test_loss, test_acc = model.evaluate(test_df, verbose=1)
 print('\nTest accuracy:', test_acc)
 print('\nTest loss:', test_loss)
