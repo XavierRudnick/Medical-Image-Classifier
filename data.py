@@ -61,7 +61,7 @@ train_df = train_df.shuffle(1000).batch(BATCH_SIZE).prefetch(AUTOTUNE)
 test_df = test_df.batch(BATCH_SIZE).prefetch(AUTOTUNE)
 
 
-#creating model
+#creating model based on multiple previous medical image classifer medical papers with purpose of recognizing xrays
 model=tf.keras.Sequential([
     tf.keras.layers.Conv2D(64,(3,3),activation='relu',input_shape=(150,150,1)),
     tf.keras.layers.MaxPooling2D(2,2),
