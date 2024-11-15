@@ -13,8 +13,8 @@ lung disease images into four categories: COVID-19, Normal, Pneumonia, and Tuber
 Classifier uses EfficientNetB0 architecture with pre-trained ImageNet weights as the base model, 
 which is fine-tuned on the custom lung disease dataset. The model is compiled with the Adam optimizer 
 and trained with early stopping and learning rate reduction callbacks to prevent overfitting.
-the model's performance is evaluated on the test dataset, and a confusion matrix along with 
-a classification report generated to visualize and assess the model's accuracy.
+the model's performance is evaluated with a test dataset by a confusion matrix along with 
+a classification report generated to visualize and assess the model's metrics.
 """
 
 # ==============================
@@ -169,7 +169,7 @@ callbacks = [
 history = model.fit(
     train_data,                   # Training dataset
     validation_data=test_data,    # Validation dataset
-    epochs=1,                   # Number of epochs to train (increase for better results)
+    epochs=4,                   # Number of epochs to train (increase for better results)
     callbacks=callbacks         # Use the callbacks defined earlier
 )
 
@@ -193,7 +193,7 @@ true_labels = np.concatenate(
     axis=0 # Concatenate along the first axis
 )
 
-# Use the predict function on test_ds
+# Use the predict function on test_data
 predictions = model.predict(test_data)
 
 # Convert probabilities to predicted class indices
